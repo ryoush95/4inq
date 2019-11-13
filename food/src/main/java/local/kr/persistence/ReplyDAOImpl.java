@@ -2,22 +2,19 @@ package local.kr.persistence;
 
 import java.util.List;
 
-
 import javax.inject.Inject;
-
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
-
 
 import local.kr.domain.ReplyVO;
 
 @Repository
 public class ReplyDAOImpl implements ReplyDAO {
-	
+
 	@Inject
 	private SqlSession sql;
-	
+
 	private static String namespace = "local.kr.mapper.replyMapper";
 
 	@Override
@@ -31,7 +28,7 @@ public class ReplyDAOImpl implements ReplyDAO {
 	}
 
 	@Override
-	public void delete(ReplyVO vo) throws Exception {	
+	public void delete(ReplyVO vo) throws Exception {
 		sql.delete(namespace + ".replyDelete", vo);
 	}
 
@@ -42,8 +39,12 @@ public class ReplyDAOImpl implements ReplyDAO {
 
 	@Override
 	public List<ReplyVO> getList(int fno) throws Exception {
-		
+
 		return sql.selectList(namespace + ".getReplyList", fno);
 	}
 
+	@Override
+	public void adminReplyDelete(ReplyVO vo) throws Exception {
+		sql.delete(namespace + ".adminReplyDelete", vo);
+	}
 }

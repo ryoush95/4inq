@@ -173,7 +173,6 @@ public class BoardController {
 	@RequestMapping(value = "/replyDelete", method = RequestMethod.POST)
 	public int replyDelete(ReplyVO vo, HttpSession session) throws Exception {
 		int result = 0;
-
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		String replyer = RepService.idCheck(vo.getRno());
 
@@ -189,8 +188,9 @@ public class BoardController {
 	@ResponseBody
 	@RequestMapping(value = "/replyList", method = RequestMethod.GET)
 	public List<ReplyVO> getReviewList(@RequestParam("fno") int fno) throws Exception {
-
+		
 		List<ReplyVO> reply = RepService.getList(fno);
+		System.out.println("reply" + reply);
 		return reply;
 	}
 
@@ -202,7 +202,9 @@ public class BoardController {
 		int result = 0;
 		MemberVO member = (MemberVO) session.getAttribute("member");
 		String replyer = RepService.idCheck(reply.getRno());
-
+		System.out.println("리플vo 확인 =" + reply);
+		System.out.println("리플리어 확인 =" + replyer);
+		System.out.println("멤버확인 =" + member);
 		if (member.getMid().equals(replyer)) {
 			reply.setReplyer(member.getMid());
 			RepService.modify(reply);

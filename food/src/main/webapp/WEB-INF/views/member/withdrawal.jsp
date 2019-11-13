@@ -46,11 +46,13 @@
 							name="mpw" />
 					</p>
 					<p>
-						<button type="submit" id="memberban">회원탈퇴</button>
+						<button type="submit" id="memberban"
+						style= "background-color:black; color:white;">회원탈퇴</button>
 						
-					</p>
-					<p>
+					
+					
 						<button type="button"
+						style= "background-color:black; color:white;"
 							onclick="location.href='/member/mypage_home'">취소</button>
 					</p>
 				</form>

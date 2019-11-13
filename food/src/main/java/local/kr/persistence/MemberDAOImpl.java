@@ -111,4 +111,9 @@ public class MemberDAOImpl implements MemberDAO {
 	public String getBanMember(String mid) throws Exception {
 		return sql.selectOne(namespace + ".getSecessionMember", mid);
 	}
+
+	// 탈퇴회원 아이디 삭제
+	public void deleteBanMember(String mid) throws Exception {
+		sql.delete(namespace + ".deleteBanMember", mid);
+	}
 }

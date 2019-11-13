@@ -57,6 +57,7 @@ public class MemberController {
 		response.setContentType("text/html; charset=utf-8");
 		PrintWriter out = response.getWriter();
 		String email = vo.getEmail();
+		String mid = vo.getMid();
 		result = service.check_email(email);
 		
 		if(result == 0) { 
@@ -65,7 +66,7 @@ public class MemberController {
 		System.out.println(inputPass);
 		String pass = passEncoder.encode(inputPass);
 		vo.setMpw(pass);
-
+		service.deleteBanMember(mid);
 		service.signup(vo);
 
 		out.println("<script>alert('회원가입이 완료되었습니다.'); location.href='/';</script>");

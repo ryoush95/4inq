@@ -59,6 +59,7 @@
 	</select>
 
 	<!-- 댓글삭제 -->
+
 	<delete id="deleteReview">
 		delete lf_review
 		where revnum = #{revnum}

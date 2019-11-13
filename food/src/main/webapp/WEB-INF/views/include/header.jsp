@@ -95,6 +95,7 @@ div.reviewModal {
 	display: none;
 }
 
+
 div.modalBackground {
 	position: fixed;
 	top: 0;
@@ -109,8 +110,8 @@ div.modalContent {
 	position: fixed;
 	top: 20%;
 	left: calc(50% - 250px);
-	width: 420px;
-	height: 300px;
+	width: 525px;
+	height: 290px;
 	padding: 20px 10px;
 	background: #fff;
 	border: 2px solid #666;
@@ -120,7 +121,7 @@ div.modalContent textarea {
 	font-size: 16px;
 	font-family: '맑은 고딕', verdana;
 	padding: 10px;
-	width: 400px;
+	width: 500px;
 	height: 200px;
 }
 

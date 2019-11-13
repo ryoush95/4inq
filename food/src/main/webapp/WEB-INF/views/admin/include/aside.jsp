@@ -8,6 +8,7 @@
 	<li><a href="/admin/member/allMember">유저 목록</a></li>
 	<li><a href="/admin/producter/pRegister">생산자 등록</a></li>
 	<li><a href="/admin/producter/plist">생산자 목록</a></li>
+	<li><a href="/admin/service/adminFreeboardList">자유게시판 목록(삭제)</a></li>
 	<li><a href="/admin/service/noticeRegister">공지사항 등록</a>
 	<li><a href="/admin/adminNoticeList">공지사항 목록(수정, 삭제)</a>
 	<li><a href="/admin/service/adminQnaList">1:1문의 내역</a>

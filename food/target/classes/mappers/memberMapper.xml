@@ -81,4 +81,9 @@
    <select id="getSecessionMember" resultType="String">
       select bmid from lf_ban_member where bmid = #{mid}
    </select>
+   
+   <!-- 탈퇴회원 아이디 삭제 -->
+   <delete id="deleteBanMember">
+   	delete from lf_ban_member where bmid=#{mid}
+   </delete>
 </mapper>

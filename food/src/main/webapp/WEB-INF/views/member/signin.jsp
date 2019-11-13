@@ -115,10 +115,10 @@ input[type="checkbox"] {
     <div class="form2">
      <div class="form3">
       <label for="userId">아이디</label> <input type="text" id="mid"
-						name="mid" required="required" value="admin" />
+						name="mid" required="required" value="" />
       <div class="clear"></div>
       <label for="userPass">패스워드</label> <input type="password" id="mpw"
-						name="mpw" required="required" value="123" />
+						name="mpw" required="required" value="" />
 		<c:if test="${msg == false}">
 					<p style="color: #f00;">비밀번호를 확인해주세요.</p>
 				</c:if>					

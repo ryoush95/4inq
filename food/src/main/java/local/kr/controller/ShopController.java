@@ -122,7 +122,6 @@ public class ShopController {
 	 * 
 	 * }
 	 */
-	//상품 댓글 등록
 	@ResponseBody
 	@RequestMapping(value = "/view/registerReview", method = RequestMethod.POST)
 	public void registerReview(ReviewVO review, HttpSession session) throws Exception {

@@ -49,4 +49,7 @@ public interface MemberService {
 
 	// 탈퇴한 회원 아이디 가져오기
 	public String getBanMember(String mid) throws Exception;
+
+	// 탈퇴회원 아이디 삭제
+	public void deleteBanMember(String mid) throws Exception;
 }

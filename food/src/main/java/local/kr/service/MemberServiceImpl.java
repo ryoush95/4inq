@@ -145,4 +145,9 @@ public class MemberServiceImpl implements MemberService {
 		return dao.getBanMember(mid);
 	}
 
+	// 탈퇴회원 아이디 삭제
+	public void deleteBanMember(String mid) throws Exception{
+		dao.deleteBanMember(mid);
+	}
+
 }

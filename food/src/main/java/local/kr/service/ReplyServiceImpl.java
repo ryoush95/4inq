@@ -11,13 +11,13 @@ import local.kr.persistence.ReplyDAO;
 
 @Repository
 public class ReplyServiceImpl implements ReplyService {
-	
+
 	@Inject
 	private ReplyDAO dao;
 
 	@Override
 	public void register(ReplyVO vo) throws Exception {
-		dao.insert(vo);		
+		dao.insert(vo);
 	}
 
 	@Override
@@ -28,21 +28,24 @@ public class ReplyServiceImpl implements ReplyService {
 	@Override
 	public void remove(ReplyVO vo) throws Exception {
 		dao.delete(vo);
-		
+
 	}
 
 	@Override
 	public void modify(ReplyVO reply) throws Exception {
 		dao.update(reply);
-		
+
 	}
 
 	@Override
 	public List<ReplyVO> getList(int fno) throws Exception {
-		
+
 		return dao.getList(fno);
 	}
-	
+
+	@Override
+	public void adminReplyDelete(ReplyVO vo) throws Exception {
+		dao.adminReplyDelete(vo);
+	}
 
 }
-

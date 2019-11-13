@@ -65,62 +65,9 @@
 </footer>
 <!-- ##### Footer Area End ##### -->
 
-<div class="reviewModal">
-	<div class="modalContent">
 
-		<div>
-			<textarea class="modal_revcon" name="modal-revcon"></textarea>
-		</div>
 
-		<div>
-			<button type="button" class="modal_modify_btn">수정</button>
-			<button type="button" class="modal_cancel">취소</button>
-		</div>
-	</div>
-	<div class="modalBackground"></div>
-</div>
 
-<script>
-	$(".modal_modify_btn").click(function() {
-		var modifyConfirm = confirm("수정하시겠습니까?");
-
-		if (modifyConfirm) {
-
-			var data = {
-				revnum : $(this).attr("data-revnum"),
-				revcon : $(".modal_revcon").val()
-			}; // ReviewVO형태로 데이터생성
-
-			$.ajax({
-				url : "/shop/view/modifyReview",
-				type : "post",
-				data : data,
-				success : function(result) {
-
-					console.log(result);
-					//result 값에따라 동작
-					if (result == 1) {
-						
-						reviewList();
-						$(".reviewModal").fadeOut(200);
-					} else {
-						alert("본인이 아닙니다.")
-					}
-				},
-				error : function() {
-					alert("로그인 하셔야합니다.")
-				}
-			});
-		}
-	});
-</script>
-
-<script>
-	$(".modal_cancel").click(function() {
-		//$(".reviewModal").attr("style", "display:none;");
-		$(".reviewModal").fadeOut(200);
-	});
-</script>
 
 
 <!-- ##### jQuery (Necessary for All JavaScript Plugins) ##### -->

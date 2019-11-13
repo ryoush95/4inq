@@ -36,26 +36,84 @@ $(document).ready(function() {
 	
 });	
 </script>
+
+<style>
+table.type02 {
+    border-collapse: separate;
+    border-spacing: 0;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+  margin : 20px 10px;
+  display: table;
+}
+table.type02 th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+    border-left: 1px solid #fff;
+    color: #fff;
+    background: #191919;
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+}
+
+table.type02 td {
+    width: 600px;
+    padding: 10px;
+    vertical-align: top;
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+}
+</style>
+
+
+
 </head>
 <body>
-
+<br><br><br><br>
+<table class="type02">
 	<h2>게시글 수정</h2>
+	
 	<form name="form1" method="post">
 
-		<div>
-			제목 <input name="title" id="title" size="80"
-				placeholder="수정 할 제목을 입력해주세요">
+		<tr>
+			<th scope="row">제목</th>
+			 <td><input name="title" id="title" size="80"
+				placeholder="수정 할 제목을 입력해주세요"></td>
+		</tr>
+		
+		
+		<tr>
+			<th scope="row">내용</th>
+			<td><textarea name="content" id="content" rows="10" cols="80"
+				placeholder="수정 할 내용을 입력해주세요"></textarea></td>
+		</tr>
+		
+		
+		
+		<tr>
+		<td colspan="2">
+		<div style="width: 650px; text-align: center; margin:auto;">
+			
+			<button type="button" id="btnUpdate"
+			style= "WIDTH: 50pt; HEIGHT: 20pt; background-color:black;
+              color:white;">수정</button>
+			
+			<button type ="reset" onclick="history.go(-1);"
+			style= "WIDTH: 50pt; HEIGHT: 20pt; background-color:black;
+              color:white;">취소</button>
 		</div>
-		<div>
-			내용
-			<textarea name="content" id="content" rows="4" cols="80"
-				placeholder="수정 할 내용을 입력해주세요"></textarea>
-		</div>
-		<div style="width: 650px; text-align: center;">
-			<button type="button" id="btnUpdate">수정</button>
-			<button type="reset">취소</button>
-		</div>
+		</td>
+		</tr>
 	</form>
+	</table>
 </body>
 </html>
 <%@ include file="../include/footer.jsp"%>
