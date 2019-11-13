@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="local.kr.mappers.QnaMapper">
+
+
+	<!-- 1:1문의 내역(회원별) -->
+	<select id="qnaList" resultType="local.kr.domain.QnaVO">
+		select q.qno, q.qna_title,
+		q.qna_writer, q.qna_regdate,
+		(select count(*) from lf_qna_reply where qno=q.qno) as qna_answer 
+		from lf_qna q 
+		where mid=#{mid}
+	</select>
+
+
+	<!-- 1:1문의 등록(회원) -->
+	<insert id="qnaWrite">
+		insert into lf_qna(qno, mid, qna_title, qna_content,
+		qna_writer)
+		values (qna_seq.nextval, #{mid}, #{qna_title},
+		#{qna_content},
+		#{qna_writer})
+	</insert>
+
+	<!-- 1:1문의 삭제 -->
+	<delete id="qnaDelete">
+		delete from lf_qna where qno = #{qno}
+	</delete>
+
+	<!-- 1:1문의 조회 -->
+	<select id="qnaRead" resultType="local.kr.domain.QnaVO">
+		select qno, qna_title,
+		qna_content, qna_writer, qna_regdate from lf_qna where
+		qno = #{qno}
+	</select>
+
+	<!-- 1:1문의 수정 -->
+	<!-- 수정 -->
+	<update id="qnaUpdate">
+		update lf_qna set qna_title=#{qna_title}, qna_content = #{qna_content} where qno =
+		#{qno}
+	</update>
+
+</mapper>

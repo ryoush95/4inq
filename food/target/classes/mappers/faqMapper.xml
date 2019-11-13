@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+
+<mapper namespace="local.kr.mapper.faqMapper">
+
+    <select id="getList" resultType="local.kr.domain.FaqVO">
+    	select faq_title, faq_content from lf_faq
+    </select>
+    
+    <insert id="faqInsert">
+    	insert into lf_faq(faq_no, faq_title, faq_content) values(faq_no_seq.nextval, #{faq_title}, #{faq_content}) 
+    </insert>
+ 
+</mapper>

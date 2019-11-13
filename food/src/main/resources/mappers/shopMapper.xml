@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="local.kr.mappers.shopMapper">
+
+	<select id="list" resultType="local.kr.domain.ProductViewVO">
+		select * from lf_item
+	</select>
+
+	<select id="list_1" resultType="local.kr.domain.ProductViewVO">
+		select
+		i.inum, i.iname, ipicture,
+		cateCodeRef, catename, iintroduce,
+		price, i.cateCode, ithumbimg
+		from
+		lf_item i
+		inner join category c
+		on i.cateCode = c.cateCode
+		where
+		c.cateCode = #{cateCode}
+		or c.cateCodeRef = #{cateCodeRef}
+	</select>
+
+
+
+	<!-- 카테고리별 상품 리스트 : 2차 분류 -->
+	<select id="list_2" resultType="local.kr.domain.ProductViewVO">
+		select
+		i.inum, i.iname, ipicture,
+		cateCodeRef, catename, iintroduce,
+		price, i.cateCode, ithumbimg
+		from
+		lf_item i
+		inner join category c
+		on i.cateCode = c.cateCode
+		where
+		i.cateCode = #{cateCode}
+	</select>
+
+	<!-- 상품 댓글 -->
+	<insert id="registerReview">
+		insert into lf_review (inum, mid, revnum, revcon,
+		revdate) VALUES
+		(#{inum}, #{mid}, review_seq.nextval, #{revcon},
+		sysdate)
+	</insert>
+
+	<!-- 상품 소감(댓글) 리스트 -->
+	<select id="reviewList"
+		resultType="local.kr.domain.ReviewListVO">
+		select
+		r.iNum, r.mId, r.revNum, r.revCon, r.revDate, m.Name
+		from lf_review r
+		inner join lf_member m
+		on r.mId = m.mId
+		where iNum =
+		#{inum}
+	</select>
+
+	<!-- 댓글삭제 -->
+	<delete id="deleteReview">
+		delete lf_review
+		where revnum = #{revnum}
+		and mid =
+		#{mid}
+	</delete>
+
+	<!-- 아이디체크 -->
+
+	<select id="reviewUserIdCheck" resultType="String">
+		select mid
+		from
+		lf_review
+		where revnum=#{revnum}
+	</select>
+
+	<!-- 댓글수정 -->
+	<update id="modifyReview">
+		update lf_review
+		set
+		revcon =#{revcon}
+		where revnum =
+		#{revnum}
+		and mid = #{mid}
+	</update>
+
+
+	<!-- 카트 추가 -->
+	<insert id="addCart">
+		insert into lf_cart ( cartnum, mid,inum,cartstock)
+		VALUES (cart_seq.nextval, #{mid}, #{inum},#{cartstock})
+	</insert>
+
+	<!-- 카트리스트 -->
+	<select id="cartList" resultType="local.kr.domain.CartListVO">
+		select row_number() over(ORDER
+		by c.cartnum desc) as num,
+		c.cartnum, c.mid, c.inum,c.cartstock,
+		i.iname, i.price, i.ithumbimg
+		from lf_cart c
+		inner join lf_item i
+		on
+		c.inum = i.inum
+		where c.mid = #{mid}
+	</select>
+
+	<!-- 카트지우기 -->
+	<delete id="deleteCart">
+		delete lf_cart
+		where cartnum = #{cartnum}
+		and mid=
+		#{mid}
+	</delete>
+
+	<!-- 주문정보 -->
+	<insert id="orderInfo">
+		insert into lf_order(orderId, mid, orderRec,
+		userAddr1, userAddr2,
+		userAddr3, orderPhon, amount)
+		values(#{orderId},
+		#{mid}, #{orderRec}, #{userAddr1}, #{userAddr2}, #{userAddr3},
+		#{orderPhon}, #{amount})
+	</insert>
+
+	<!-- 주문상세정보 -->
+	<insert id="orderInfo_Details">
+		insert into lf_order_details(orderDetailsNum,orderId,
+		iNum, cartStock)
+		select order_details_seq.nextval, #{orderId},iNum,
+		cartStock
+		from lf_cart where mid =#{mid}
+	</insert>
+
+	<!-- 카트삭제 -->
+	<delete id="cartAllDelete">
+		delete lf_cart
+		where mid = #{mid}
+	</delete>
+
+	<!-- 유저의 주문목록 -->
+	<select id="orderList" resultType="local.kr.domain.OrderVO">
+		select
+		orderId, mid,
+		orderRec,userAddr1, userAddr2, userAddr3, orderPhon, amount,
+		orderDate, delivery
+		from lf_order
+		where mid =#{mid}
+	</select>
+
+	<!-- 상세주문목록 -->
+	<select id="orderView" resultType="local.kr.domain.OrderListVO">
+		select
+		o.orderId, o.mid,
+		o.orderRec, o.userAddr1, o.userAddr2, o.userAddr3,
+		o.orderPhon,
+		o.amount, o.orderDate,
+		d.orderDetailsNum, i.inum, d.cartStock,
+		i.iname,
+		i.ithumbimg, i.price, o.delivery
+		from lf_order o
+		inner join
+		lf_order_details d
+		on o.orderId = d.orderId
+		inner join lf_item i
+		on
+		d.inum = i.inum
+		where o.mid = #{mid}
+		and o.orderId = #{orderId}
+	</select>
+
+	<!-- 댓글페이징 -->
+	<select id="listPage"
+		resultType="local.kr.domain.ProductViewVO"
+		parameterType="local.kr.domain.Criteria">
+		select INUM ,
+		INAME ,
+		IINTRODUCE ,
+		PRICE ,
+		CATECODE ,
+		ITHUMBIMG ,
+		PNUM
+		from (
+		select inum, INAME ,
+		IINTRODUCE ,
+		PRICE ,
+		CATECODE ,
+		ITHUMBIMG ,
+		PNUM ,
+		row_number() over(order by inum desc) as rnum
+		from lf_item
+		) mb
+		where rnum between #{rowStart} and #{rowEnd}
+		order by inum desc
+	</select>
+
+	<!-- 댓글카운트 -->
+	<select id="listCount" resultType="int"> 
+	<![CDATA[
+	select count(inum)
+	from lf_item
+	where inum>0
+	]]>
+	</select>
+
+</mapper>

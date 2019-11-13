@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+
+<mapper namespace="local.kr.mappers.noticeMapper">
+
+<!-- 공지사항 등록 -->
+	<insert id="noticeWrite">
+		insert into lf_notice(nno, notice_title, notice_content, notice_writer) 
+		values(notice_seq.nextval, #{notice_title}, #{notice_content}, #{notice_writer})
+	</insert>
+	
+<!-- 공지사항 목록 -->
+ <select id="noticeList" resultType="local.kr.domain.NoticeVO">
+ 	<include refid="pagingHeader"></include>
+ 	select rownum, nno, notice_title, notice_writer, n.notice_regdate, notice_viewcnt  
+ 	from lf_notice n, lf_member m 
+ 	<include refid="search"></include> 
+ 	order by nno desc, notice_regdate desc
+ 	<include refid="pagingFooter"></include> 
+ </select>
+
+ <!-- 게시글 레코드 수 -->
+ <select id="noticeCountArticle" resultType="int">
+ 	select count(*) from lf_notice n, lf_member m<include refid="search"></include>
+ </select>
+ 
+ <!-- 조회수 증가 -->
+ <update id="noticeIncreaseViewcnt">
+ 	update lf_notice set notice_viewcnt = notice_viewcnt + 1 where nno = #{nno}
+ </update>
+ 
+ <!-- 공지사항 조회 -->
+ <select id="noticeRead" resultType="local.kr.domain.NoticeVO">
+ 	select nno, notice_title, notice_content, notice_writer, notice_regdate, notice_viewcnt from lf_notice where nno = #{nno}
+ </select>
+ 
+ <!-- 공지사항 수정 -->
+ <update id="noticeUpdate">
+ 	update lf_notice set notice_title=#{notice_title}, notice_content=#{notice_content} where nno=#{nno}
+ </update>
+ 
+ <!-- 공지사항 삭제 -->
+ <delete id="noticeDelete">
+ 	delete from lf_notice where nno=#{nno}
+ </delete>
+ 
+ <!-- sql code 조각 -->
+<!-- 반복되는 sql의 일부를 sql태그를 이용하여 따로 빼둘수 있다. -->
+<sql id="search">
+    <choose>
+        <!-- 검색옵션이 전체 검색일 경우 -->
+        <when test="searchOption == 'all'">
+            WHERE n.notice_writer = m.mid
+            and (m.name like '%'||#{keyword}||'%'
+            OR n.notice_content like '%'||#{keyword}||'%'
+            OR n.notice_title like '%'||#{keyword}||'%')
+        </when>
+        <!-- 전체 검색이 아닐 경우 -->
+        <otherwise>
+            WHERE n.notice_writer = m.mid
+            and ${searchOption} like '%'||#{keyword}||'%'
+        </otherwise>
+    </choose>
+</sql>
+<!-- 페이징 sql -->
+	<sql id="pagingHeader">
+		select * from (
+		select rownum as rn, a.* FROM (
+	</sql>
+	<sql id="pagingFooter">
+		) A
+		) WHERE rn BETWEEN #{start} AND #{end}
+	</sql>
+		
+
+</mapper>

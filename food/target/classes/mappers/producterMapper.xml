@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="local.kr.mappers.producterMapper">
+
+	<select id="producterList" resultType="local.kr.domain.ProducterVO">
+		select PNUM ,
+		PNAME ,
+		PINTRODUCE ,
+		PADDRESS ,
+		PPICTURE ,
+		PTHUMBIMG from lf_producter
+	</select>
+	
+	<select id="producterView" resultType="local.kr.domain.ProducterVO">
+		select pnum, pname, paddress,
+		ppicture, pintroduce,
+		pthumbimg
+		from lf_producter
+		where
+		pnum = #{pnum}
+	</select>
+	
+	<!-- 생산자번호 가져오기 -->
+	<select id="getPnum" resultType="local.kr.domain.ProducterVO">
+		select pnum from lf_producter where pnum = #{pnum}
+	</select>
+
+</mapper>

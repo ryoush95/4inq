@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//En"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="local.kr.mappers.adminMapper">
+
+
+	<!-- 카테고리 호출 -->
+	<select id="category" resultType="local.kr.domain.CategoryVO">
+		select
+		level, catename,
+		cateCode, cateCodeRef
+		from category
+		start with cateCodeRef is null
+		connect by prior cateCode = cateCodeRef
+	</select>
+
+	<!-- 상품 등록 -->
+	<insert id="register">
+		insert into lf_item (inum, iname, iintroduce, price,
+		cateCode, ipicture, ithumbimg, pnum)
+		values (item_seq.nextval,
+		#{iname},
+		#{iintroduce}, #{price},
+		#{cateCode}, #{ipicture},
+		#{ithumbimg}, #{pnum})
+	</insert>
+
+	<!-- 상품 목록 -->
+	<!-- <select id="productlist" resultType="local.kr.domain.ProductVO"> select 
+		inum, iname, ipicture, price, cateCode from lf_item order by inum desc </select> -->
+
+	<select id="productlist"
+		resultType="local.kr.domain.ProductViewVO">
+		select
+		i.inum, i.iname, ipicture, cateCodeRef, catename,
+		iintroduce,
+		price, i.cateCode, ithumbimg, pnum
+		from lf_item i inner join
+		category c
+		on i.catecode = c.catecode
+		order by inum desc
+	</select>
+
+	<!-- 상품 조회 -->
+	<!-- <select id="productView" resultType="local.kr.domain.ProductVO"> select 
+		inum, iname, ipicture, iintroduce, price, cateCode from lf_item where inum 
+		= #{inum} </select> -->
+
+	<select id="productView"
+		resultType="local.kr.domain.ProductViewVO">
+		 select inum, iname,
+		ipicture, iintroduce, price, i.cateCode,
+		c.cateCodeRef, c.cateName, ithumbimg, p.pnum ,p.pname
+		from lf_item i ,
+		category c ,lf_producter p
+		where
+		i.cateCode = c.cateCode and p.pnum = i.pnum
+		and
+		i.inum = #{inum}
+	</select>
+
+	<!-- 상품수정 -->
+	<update id="productModify">
+		update lf_item
+		set
+		iname = #{iname},
+		cateCode =
+		#{cateCode},
+		price = #{price},
+		iintroduce = #{iintroduce},
+
+		ipicture =
+		#{ipicture},
+		ithumbimg =#{ithumbimg}
+
+		where inum = ${inum}
+	</update>
+
+	<!-- 상품삭제 -->
+	<delete id="productDelete">
+		delete
+		lf_item
+		where inum = #{inum}
+	</delete>
+
+	<!-- 모든유저 주문목록 -->
+	<select id="orderList" resultType="local.kr.domain.OrderVO">
+		select orderid, mid,
+		orderRec,userAddr1,userAddr2,userAddr3,
+		orderphon,amount,orderdate,
+		delivery
+		from lf_order
+	</select>
+
+	<!-- 특정주문 목록 -->
+	<select id="orderView" resultType="local.kr.domain.OrderListVO">
+		select
+		o.orderId, o.mid,
+		o.orderRec,
+		o.userAddr1, o.userAddr2, o.userAddr3,
+		o.orderPhon,
+		o.amount, o.orderDate, o.delivery,
+		d.orderDetailsNum, d.iNum,
+		d.cartStock,
+		i.iName, ithumbimg, i.Price, o.delivery
+		from lf_order o
+		inner join lf_order_details d
+		on o.orderId = d.orderId
+		inner join
+		lf_item i
+		on d.iNum = i.iNum
+		where o.orderId = #{orderId}
+	</select>
+
+	<!-- 배송 -->
+	<update id="delivery">
+		update lf_order
+		set delivery = #{delivery}
+		where
+		orderId =#{orderId}
+	</update>
+
+	<!-- 소감 댓글 -->
+	<select id="allReview" resultType="local.kr.domain.ReviewListVO">
+		select
+		r.iNum, r.mid, r.revNum,
+		r.revCon, r.revDate,
+		m.Name
+		from lf_review r
+		inner join lf_member m
+		on
+		r.mid = m.mid
+		order by revnum desc
+	</select>
+
+	<!-- 소감 지우기 -->
+	<delete id="deleteReview">
+		delete lf_review
+		where revnum=#{revnum}
+	</delete>
+
+	<!-- 유저 관리 -->
+	<select id="allMember" resultType="local.kr.domain.MemberVO">
+		select * from lf_member
+		order
+		by mnum asc
+	</select>
+
+	<!-- 유저상세 -->
+	<select id="memberView" resultType="local.kr.domain.MemberVO">
+		select * from lf_member where
+		mnum =#{mnum}
+	</select>
+
+	<!-- 생산자등록 -->
+	<select id="pRegister" resultType="local.kr.domain.ProducterVO">
+		insert into lf_producter
+		(pnum, pname, pintroduce, paddress,
+		ppicture, pthumbimg)
+		values
+		(producter_seq.nextval, #{pname},
+		#{pintroduce},
+		#{paddress},#{ppicture}, #{pthumbimg})
+	</select>
+
+	<!-- 생산자목록 -->
+	<select id="producterlist"
+		resultType="local.kr.domain.ProducterVO">
+		select
+		pnum, pname, paddress,
+		pthumbimg
+		from lf_producter
+		order by pnum desc
+	</select>
+
+	<!-- 생산자 상세 -->
+	<select id="producterView"	resultType="local.kr.domain.ProducterVO">
+		select pnum, pname, paddress,
+		ppicture, pintroduce,
+		pthumbimg
+		from lf_producter
+		where
+		pnum = #{pnum}
+	</select>
+
+	<!-- 생산자 수정 -->
+	<update id="producterModify">
+		update lf_producter
+		set
+		pname = #{pname},
+		pintroduce = #{pintroduce},
+		paddress =
+		#{paddress},
+		ppicture =
+		#{ppicture},
+		pthumbimg =#{pthumbimg}
+
+		where pnum =
+		${pnum}
+	</update>
+	<!-- 생산자 삭제 -->
+	<delete id="producterDelete">
+		delete
+		lf_producter
+		where pnum = #{pnum}
+	</delete>
+	
+	<!-- 1:1문의 내역(관리자) -->
+	<select id="allQnaList" resultType="local.kr.domain.QnaVO">
+		select qno, qna_title, qna_writer, qna_regdate, 
+		(select count(*) from lf_qna_reply where qno=q.qno) as qna_answer 
+		from lf_qna q 
+	</select>
+	
+	<!-- 유저삭제 -->
+	<delete id="idDelete">
+	delete from lf_member where mnum=#{mnum}
+	</delete>
+	
+	<!-- 유저수정 -->
+	<update id="idModify">
+	update lf_member
+		set
+		mid = #{mid},
+        mpw = #{mpw},
+        name = #{name},
+        address1=#{address1},
+        address2=#{address2},
+        address3=#{address3},
+        phone = #{phone}
+
+		where mnum = #{mnum};
+	</update>
+	
+</mapper>

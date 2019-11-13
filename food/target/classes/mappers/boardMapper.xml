@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="local.kr.mapper.boardMapper">
+	<!-- 작성 -->
+	<insert id="write">
+		insert into lf_freeboard(fno, title, content, writer)
+		values (freeboard_seq.nextval, #{title}, #{content}, #{writer})
+	</insert>
+
+	<!-- 조회 -->
+	<select id="read" resultType="local.kr.domain.BoardVO">
+		select fno, title, content, writer, regdate, viewcnt from lf_freeboard where
+		fno = #{fno}
+	</select>
+
+	<!-- 수정 -->
+	<update id="update">
+		update lf_freeboard set title=#{title}, content = #{content} where fno =
+		#{fno}
+	</update>
+
+	<!-- 삭제 -->
+	<delete id="delete">
+		delete from lf_freeboard where fno = #{fno}
+	</delete>
+
+	<!-- 목록 -->
+	<select id="list" resultType="local.kr.domain.BoardVO">
+		 <include refid="pagingHeader"></include>
+		select rownum, fno, title, writer, f.regdate, viewcnt, f.name as name, 
+		 (select count(*) from lf_reply where fno=f.fno) as replycnt 
+		 from lf_freeboard f, lf_member m
+		<include refid="search"></include>
+		order by fno desc, regdate desc
+		 <include refid="pagingFooter"></include>  
+	</select>
+
+	<!-- 게시글 레코드 수 -->
+	<select id="countArticle" resultType="int">
+		select count(*) from lf_freeboard f, lf_member m
+		<include refid="search"></include>
+	</select>
+
+	<!-- 조회수 증가 -->
+	<update id="increaseViewcnt">
+		update lf_freeboard set viewcnt = viewcnt + 1 where fno = #{fno}
+	</update>
+
+	<!-- sql code 조각 -->
+	<!-- 반복되는 sql의 일부를 sql태그를 이용하여 따로 빼둘수 있다. -->
+	<sql id="search">
+		<choose>
+			<!-- 검색옵션이 전체 검색일 경우 -->
+			<when test="searchOption == 'all'">
+				WHERE f.writer = m.name
+				and (m.name like '%'||#{keyword}||'%'
+				OR f.content like '%'||#{keyword}||'%'
+				OR f.title like '%'||#{keyword}||'%')
+			</when>
+			<!-- 전체 검색이 아닐 경우 -->
+			<otherwise>
+				WHERE f.writer = m.name
+				and ${searchOption} like '%'||#{keyword}||'%'
+			</otherwise>
+		</choose>
+	</sql>
+
+	<!-- 페이징 sql -->
+	<sql id="pagingHeader">
+		select * from (
+		select rownum as rn, a.* FROM (
+	</sql>
+	<sql id="pagingFooter">
+		) A
+		) WHERE rn BETWEEN #{start} AND #{end}
+	</sql>
+
+</mapper>
+ 

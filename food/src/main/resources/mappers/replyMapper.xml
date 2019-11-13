@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="local.kr.mapper.replyMapper">
+    
+ 
+ 	<!-- 댓글 등록 -->
+ 	<insert id="replyInsert">
+ 	insert into lf_reply(rno, fno, reply, replyer, replydate) values(reply_seq.nextval, #{fno}, #{reply}, #{replyer}, sysdate)
+ 	</insert>
+ 	
+ 	<!-- 댓글 목록 출력  -->
+ 	<select id="getReplyList" resultType="local.kr.domain.ReplyVO">
+ 	select r.fno, r.replyer, r.rno, r.reply, r.replydate, m.mid from lf_reply r inner join lf_member m on r.replyer = m.mid where fno = #{fno}
+ 	</select>
+ 	 
+ 	<!-- 댓글 삭제 -->
+ 	<delete id="replyDelete">
+ 	delete lf_reply where rno = #{rno} and replyer = #{replyer}
+ 	</delete>
+ 	
+ 	<!-- id 가져오기 -->
+ 	<select id="replyUserIdCheck" resultType="String">
+ 	select replyer from lf_reply where rno=#{rno}
+ 	</select>
+ 	
+ 	<!-- 댓글 수정 -->
+ 	<update id="replyUpdate">
+ 	update lf_reply set reply=#{reply} where rno=#{rno} and replyer=#{replyer}
+ 	</update>
+</mapper>
