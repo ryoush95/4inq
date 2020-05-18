@@ -31,6 +31,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="E:/sqldeveloper/jdbc/lib/ojdbc8.jar"/>
+	<classpathentry kind="lib" path="C:/Users/ryry/Desktop/program/sqldeveloper-19.2.1.247.2212-x64/sqldeveloper/jdbc/lib/ojdbc8.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

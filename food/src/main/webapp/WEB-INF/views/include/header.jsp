@@ -14,13 +14,13 @@
 <title>Home</title>
 
 <!-- Favicon  -->
-<link rel="icon" href="/resources/img/core-img/favicon.ico">
+<link rel="icon" href="resources/img/core-img/favicon.ico">
 <script src="https://code.jquery.com/jquery-3.4.1.min.js">
 	
 </script>
 <!-- Core Style CSS -->
-<link rel="stylesheet" href="/resources/css/core-style.css">
-<link rel="stylesheet" href="/resources/style.css">
+<link rel="stylesheet" href="./resources/css/core-style.css">
+<link rel="stylesheet" href="./resources/style.css">
 <style>
 /* 댓글리스트 */
 section.reviewForm {
@@ -317,7 +317,7 @@ section#content button {
 							<input type="search" name="search" id="search"
 								placeholder="Type your keyword...">
 							<button type="submit">
-								<img src="/resources/img/core-img/search.png" alt="">
+								<img src="./resources/img/core-img/search.png" alt="">
 							</button>
 						</form>
 					</div>
@@ -336,7 +336,7 @@ section#content button {
 		<div class="mobile-nav">
 			<!-- Navbar Brand -->
 			<div class="amado-navbar-brand">
-				<a href="index.html"><img src="/resources/img/core-img/logo1.png"
+				<a href="index.html"><img src="./resources/img/core-img/logo1.png"
 					alt=""></a>
 			</div>
 			<!-- Navbar Toggler -->
@@ -354,7 +354,7 @@ section#content button {
 			<!-- Logo -->
 			<div class="logo">
 				<a href="http://localhost:8090/"><img
-					src="/resources/img/core-img/logo1.png" alt=""></a>
+					src="./resources/img/core-img/logo1.png" alt=""></a>
 			</div>
 
 			<!-- Button Group -->
@@ -499,13 +499,13 @@ fa - sign - out - alt fa - sm fa - fw mr - 2 text - gray - 400"></i>회원가입
 					<!-- Cart Menu -->
 					<div class="cart-fav-search mb-100">
 						<a href="/shop/cartList" class="cart-nav"><img
-							src="/resources/img/core-img/cart.png" alt=""> 장바구니 </a> <a
+							src="./resources/img/core-img/cart.png" alt=""> 장바구니 </a> <a
 							href="/shop/orderList" class="fav-nav"><img
-							src="/resources/img/core-img/search.png" alt=""> 주문내역</a> <a
+							src="./resources/img/core-img/search.png" alt=""> 주문내역</a> <a
 							href="/company" class="fav-nav"><img
-							src="/resources/img/core-img/favorites.png" alt=""> 회사소개</a>
+							src="./resources/img/core-img/favorites.png" alt=""> 회사소개</a>
 							<!-- <img
-										src="/resources/img/core-img/favorites.png" alt="">
+										src="./resources/img/core-img/favorites.png" alt="">
 										관리자페이지</a> -->
 					</div>
 					<!-- Social Button -->
